@@ -1,18 +1,35 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Platform} from 'react-native';
+import { connect } from 'react-redux';
+import {Button, Icon} from 'react-native-elements';
 
-export default class SettingsScreen extends Component {
+import {clearLikedJobs} from "../actions";
+
+class SettingsScreen extends Component {
+    static navigationOptions = ({navigation, screenProps}) => ({
+        title: "Settings",
+        tabBarLabel: 'Review Jobs',
+        tabBarIcon: ({tintColor}) => {
+            return <Icon  name='favorite' color={tintColor}/>
+        },
+        style: {
+            marginTop: Platform.OS === 'android' ? 24 : 0
+        }
+    });
+
     render() {
         return (
             <View>
-                <Text>SettingsScreen</Text>
-                <Text>SettingsScreen</Text>
-                <Text>SettingsScreen</Text>
-                <Text>SettingsScreen</Text>
-                <Text>SettingsScreen</Text>
-                <Text>SettingsScreen</Text>
-                <Text>SettingsScreen</Text>
+                <Button
+                    large
+                    title='Reset All'
+                    icon={{name: 'delete-forever'}}
+                    backgroundColor='#f44336'
+                    onPress={this.props.clearLikedJobs}
+                />
             </View>
         )
     }
 }
+
+export default connect(null, {clearLikedJobs})(SettingsScreen);
